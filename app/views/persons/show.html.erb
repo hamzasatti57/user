@@ -1,0 +1,73 @@
+<% content_for :head do %>
+  <title>A simple page</title>
+<% end %>
+<p>
+  <strong>Name:</strong>
+  <%= @person.Name %>
+</p>
+
+<p>
+  <strong>Age:</strong>
+  <%= @person.Age %>
+</p>
+
+<p>
+  <strong>Gender:</strong>
+  <%= @person.Gender %>
+</p>
+ 
+<p>
+  <strong>Email:</strong>
+  <%= @person.Email %>
+</p>
+
+<p>
+  <strong>Address:</strong>
+  <%= @person.Address %>
+</p>
+
+<h2>Books</h2>
+<% @person.books.each do |book| %>
+  <p>
+    <strong>Name:</strong>
+    <%= book.name %>
+  </p>
+ 
+  <p>
+    <strong>Pages:</strong>
+    <%= book.pages %>
+  </p>
+
+  <p>
+    <strong>Image:</strong>
+<%= link_to image_tag(book.image.url, class: 'media-object'), book.image.url, target: '_blank' %>
+      <!-- Button to delete image -->  </p>
+  <p>
+  <%= link_to 'Destroy Book', [book.person, book],
+               method: :delete,
+               data: { confirm: 'Are you sure?' } %>
+</p>
+<% end %>
+
+<h2>Add a Book:</h2>
+<%= form_with(model: [ @person, @person.books.build ], local: true) do |form| %>
+  <p>
+    <%= form.label :name %><br>
+    <%= form.text_field :name %>
+  </p>
+  <p>
+    <%= form.label :pages %><br>
+    <%= form.text_field :pages %>
+  </p>
+  <p id="pictureInput">
+    <%= form.label :image %><br>
+    <%= form.file_field :image %>  </p>
+ <div id="target" >
+  </div>
+  <p >
+    <%= form.submit %>
+  </p>
+<% end %>
+
+<%= link_to 'Edit', edit_person_path(@person) %> |
+<%= link_to 'Back', persons_path %>
